@@ -6,7 +6,7 @@
 #include <format>
 #include <concepts>
 
-auto some_random_number(){
+auto some_const_number(){
     std::random_device rd;
     std::mt19937 engine(rd());
     std::uniform_int_distribution<int>dist(1, 100);
@@ -22,16 +22,6 @@ unsigned input() {
     }
     return number;
 }
-
-template <typename T, typename P>
-class Map{
-public:
-    T m_key;
-    P m_value;
-    Map(T new_key, P new_value)
-        : m_key{new_key}, m_value{new_value} {}
-};
-
 
 std::function<std::string(int, int)> callable = [](int number, int guess) {
     return std::format("Your guess was too {}\n", (guess < number ? "small" : "big"));
@@ -63,11 +53,9 @@ void guess_number_with_clues(unsigned number, std::invocable<int, int> auto mess
 }
 
 int main() {
-    // auto make_message = [](int number, int guess) {
-    //     return std::format("Your guess was too {}\n",  (guess < number ? "small" : "big"));
-    // };
-    // guess_number_with_clues(some_random_number(), make_message);
-    Map map1(111222,std::string{"Steve Murphy"});
-    std::cout << "key : " << map1.m_key << std::endl;
-    std::cout << "value : " << map1.m_value << std::endl;
+    auto make_message = [](int number, int guess) {
+        return std::format("Your guess was too {}\n",  (guess < number ? "small" : "big"));
+    };
+    guess_number_with_clues(some_const_number(), make_message);
+
 }
