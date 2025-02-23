@@ -22,6 +22,28 @@ void duration_to_end_of_year() {
     std::cout << dur << " until event\n";
 }
 
+void durations(){
+    using namespace std::chrono;
+    using centuries = duration<long long, std::ratio_multiply<years::period, std::hecto>>;
+    centuries two_hundred_years = centuries(2);
+    seconds sec = two_hundred_years;
+    hours hrs = two_hundred_years;
+    days  day_count = duration_cast<days>(two_hundred_years);
+    std::cout << "Two centuries is approximately " << day_count << '\n';
+}
+
+template <typename T>
+concept Quacks = requires (T t){ t.Quack(); };
+
+template<typename T>
+requires Quacks<T>
+void might_be_a_duck(T x) {x.Quack();}
+
+void also_must_be_a_duck(Quacks auto x) {
+    x.Quack();
+}
+
 int main(){
-    duration_to_end_of_year();
+    // duration_to_end_of_year();
+    might_be_a_duck(42);
 }

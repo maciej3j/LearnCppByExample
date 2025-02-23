@@ -5,5 +5,6 @@ set(CMAKE_CXX_STANDARD 23)
 
 include_directories(.)
 
-add_executable(LearncppByExample
-        main.cpp)
+add_executable(main_program
+        main.cpp
+)
