@@ -1,14 +1,6 @@
 #include <iostream>
 #include <chrono>
 
-// what compiler says in cppinsights
-// std::chrono::time_point<std::chrono::system_clock,
-// std::chrono::duration<long, std::ratio<86400, 1> > >
-// event = std::chrono::time_point<std::chrono::system_clock,
-// std::chrono::duration<long, std::ratio<86400, 1> > >
-// (new_years_eve.operator time_point());
-// std::chrono::duration<long, std::ratio<1, 1000000000> > dur =
-// std::chrono::operator-(event, now);
 
 void duration_to_end_of_year() {
     std::chrono::time_point now = std::chrono::system_clock::now();
@@ -32,18 +24,16 @@ void durations(){
     std::cout << "Two centuries is approximately " << day_count << '\n';
 }
 
-template <typename T>
-concept Quacks = requires (T t){ t.Quack(); };
-
-template<typename T>
-requires Quacks<T>
-void might_be_a_duck(T x) {x.Quack();}
-
-void also_must_be_a_duck(Quacks auto x) {
-    x.Quack();
+void countdown(){
+  using namespace std::chrono;
+  time_point now = system_clock::now();
+  const auto ymd = year_month_day{floor<days>(now)};
+  auto this_year = ymd.year();auto new_years_eve = this_year / December / 31;
+  auto event = sys_days(new_years_eve);
+  duration dur = event - now;
+  std::cout << duration_cast<days>(dur) << " until event \n";
 }
 
 int main(){
-    // duration_to_end_of_year();
-    might_be_a_duck(42);
+  countdown();
 }
